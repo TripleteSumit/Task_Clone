@@ -77,10 +77,10 @@ WSGI_APPLICATION = 'taskclone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'taskClone',
+        'NAME': 'taskmanage',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': '9090'
+        'PASSWORD': '90900'
     }
 }
 
