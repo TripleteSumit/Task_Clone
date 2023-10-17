@@ -10,7 +10,7 @@ class User(models.Model):
 
 class Task(models.Model):
     title = models.TextField()
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
     date = models.DateField(auto_now_add=True)
     status = models.BooleanField(default=False)
     # user = models.ForeignKey(User, on_delete=models.CASCADE)

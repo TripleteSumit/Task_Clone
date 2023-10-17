@@ -62,19 +62,29 @@
                     aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
                     <!-- title -->
                     {{ task.title }}
-
-                    <!-- Toggle switch for task status -->
                   </button>
                   <div>
-                    <div class="form-check form-switch float-right">
-                      <input type="checkbox" {% if task.status %} checked {% endif %} data-toggle="toggle"
-                        data-on="Complete" data-off="Incomplete" data-onstyle="success" data-offstyle="danger"
-                        class="form-check-input" id="toggle{{ forloop.counter }}" name="toggle-button" />
-                      <label class="form-check-label" for="toggle{{ forloop.counter }}"></label>
-                    </div>
+                    <form id="toggle-form{{ forloop.counter }}" action="/work/user/com/{{task.id}}/" method="post">
+                      {% csrf_token %}
+                      <div class="form-check form-switch float-right">
+                        <input type="checkbox" {% if task.status %} checked {% endif %} data-toggle="toggle"
+                          data-on="Complete" data-off="Incomplete" data-onstyle="success" data-offstyle="danger"
+                          class="form-check-input" id="toggle{{ forloop.counter }}" name="toggle-button"
+                          onchange="document.getElementById('toggle-form{{ forloop.counter }}').submit();" />
+                        <label class="form-check-label" for="toggle{{ forloop.counter }}"></label>
+                      </div>
+                    </form>
+
                     <!-- Delete and Edit buttons -->
-                    <button class="btn btn-danger ml-2">Delete</button>
-                    <button class="btn btn-primary ml-2">Edit</button>
+                    <!-- Delete functionality addon -->
+                    <form action="/work/user/delete/{{task.id}}">
+                      <button class="btn btn-danger ml-2">Delete</button>
+                    </form>
+
+                    <!-- Edit funcality addon -->
+                    <form action="/work/user/update/{{task.id}}">
+                      <button class="btn btn-primary ml-2">Edit</button>
+                    </form>
                   </div>
                 </h5>
               </div>
