@@ -45,7 +45,7 @@
                             </div>
                             <div class="mb-3">
                                 <textarea type="text" class="form-control" placeholder="Description ..." rows="3"
-                                    cols="5" name="description" value="{{task.description}}"></textarea>
+                                    cols="5" name="description">{{task.description}}</textarea>
                             </div>
 
                             <button type="submit" class="btn btn-primary">Update</button>
@@ -67,13 +67,20 @@
                                         <!-- Toggle switch for task status -->
                                     </button>
                                     <div>
-                                        <div class="form-check form-switch float-right">
-                                            <input type="checkbox" {% if task.status %} checked {% endif %}
-                                                data-toggle="toggle" data-on="Complete" data-off="Incomplete"
-                                                data-onstyle="success" data-offstyle="danger" class="form-check-input"
-                                                id="toggle{{ forloop.counter }}" name="toggle-button" />
-                                            <label class="form-check-label" for="toggle{{ forloop.counter }}"></label>
-                                        </div>
+                                        <form id="toggle-form{{ forloop.counter }}" action="/work/user/com/{{task.id}}/"
+                                            method="post">
+                                            {% csrf_token %}
+                                            <div class="form-check form-switch float-right">
+                                                <input type="checkbox" {% if task.status %} checked {% endif %}
+                                                    data-toggle="toggle" data-on="Complete" data-off="Incomplete"
+                                                    data-onstyle="success" data-offstyle="danger"
+                                                    class="form-check-input" id="toggle{{ forloop.counter }}"
+                                                    name="toggle-button"
+                                                    onchange="document.getElementById('toggle-form{{ forloop.counter }}').submit();" />
+                                                <label class="form-check-label"
+                                                    for="toggle{{ forloop.counter }}"></label>
+                                            </div>
+                                        </form>
                                         <!-- Delete and Edit buttons -->
                                         <!-- Delete functionality addon -->
                                         <form action="/work/user/delete/{{task.id}}">
