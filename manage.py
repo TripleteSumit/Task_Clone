@@ -6,7 +6,11 @@ import sys
 
 def main():
     """Run administrative tasks."""
+<<<<<<< HEAD
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "onlineshop.settings")
+=======
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'taskclone.settings')
+>>>>>>> 0fecde3ee04c9868a972fff3f42b9964eb2c9c77
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -18,5 +22,9 @@ def main():
     execute_from_command_line(sys.argv)
 
 
+<<<<<<< HEAD
 if __name__ == "__main__":
+=======
+if __name__ == '__main__':
+>>>>>>> 0fecde3ee04c9868a972fff3f42b9964eb2c9c77
     main()

@@ -1,0 +1,110 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+  <!-- Bootstrap Toggle CSS -->
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet" />
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+  <style></style>
+</head>
+
+<body>
+  <h1 class="text-center my-3">TASKS</h1>
+  <!-- all task -->
+  <div class="content" style="text-align: center">
+    {% if task_title %}
+    <h2>{{task_title}}</h2>
+    {% endif %}
+  </div>
+
+  <!-- Add task -->
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-body bg-info-subtle">
+            <form action="/work/user/" method="POST">
+              {%csrf_token%}
+              <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Add a task" name="title" />
+              </div>
+              <div class="mb-3">
+                <textarea type="text" class="form-control" placeholder="Description ..." rows="3" cols="5"
+                  name="description"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+          </div>
+        </div>
+        <form action="/work/user" method="POST"></form>
+        <div id="accordion">
+          <div class="card mt-3">
+            {% for task in tasks %}
+            <div class="card">
+              <div class="card-header" id="heading{{ forloop.counter }}">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}"
+                    aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                    <!-- title -->
+                    {{ task.title }}
+                  </button>
+                  <div>
+                    <form id="toggle-form{{ forloop.counter }}" action="/work/user/com/{{task.id}}/" method="post">
+                      {% csrf_token %}
+                      <div class="form-check form-switch float-right">
+                        <input type="checkbox" {% if task.status %} checked {% endif %} data-toggle="toggle"
+                          data-on="Complete" data-off="Incomplete" data-onstyle="success" data-offstyle="danger"
+                          class="form-check-input" id="toggle{{ forloop.counter }}" name="toggle-button"
+                          onchange="document.getElementById('toggle-form{{ forloop.counter }}').submit();" />
+                        <label class="form-check-label" for="toggle{{ forloop.counter }}"></label>
+                      </div>
+                    </form>
+
+                    <!-- Delete and Edit buttons -->
+                    <!-- Delete functionality addon -->
+                    <form action="/work/user/delete/{{task.id}}">
+                      <button class="btn btn-danger ml-2">Delete</button>
+                    </form>
+
+                    <!-- Edit funcality addon -->
+                    <form action="/work/user/update/{{task.id}}">
+                      <button class="btn btn-primary ml-2">Edit</button>
+                    </form>
+                  </div>
+                </h5>
+              </div>
+
+              <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}"
+                data-parent="#accordion">
+                <div class="card-body">
+                  <!-- description data -->
+                  {{ task.description }}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <!-- Bootstrap Toggle JavaScript -->
+        <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
